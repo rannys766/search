@@ -1,0 +1,48 @@
+python
+# 交易记录类 
+class Transaction: 
+    def __init__(self, date, source, target, amount): 
+        self.date = date 
+        self.source = source 
+        self.target = target 
+        self.amount = amount
+
+# 账户类 
+class Account: 
+    def __init__(self, name, balance=0): 
+        self.name = name 
+        self.balance = balance 
+        self.transactions = [] 
+
+    def deposit(self, amount): 
+        self.balance += amount 
+        self.transactions.append(Transaction(date.today(), 'deposit',  self.name, amount))
+
+    def withdraw(self, amount): 
+        self.balance -= amount 
+        self.transactions.append(Transaction(date.today(), self.name, 'withdraw', amount)) 
+
+    def transfer_to(self, target, amount): 
+        self.withdraw(amount) 
+        target.deposit(amount)
+        transaction1 = Transaction(date.today(), self.name, target.name, amount)
+        transaction2 = Transaction(date.today(), target.name, self.name, amount) 
+        self.transactions.append(transaction1)
+        target.transactions.append(transaction2)
+        
+# 创建账户        
+john = Account('John') 
+jane = Account('Jane')
+
+# 转账    
+john.transfer_to(jane, 100)  
+
+# 余额 
+print(john.balance)  # 900
+print(jane.balance) # 1100
+
+# 交易记录
+for transaction in john.transactions: 
+    print(transaction.date, transaction.source, '->', transaction.target, transaction.amount)
+# 2020-03-15 John -> Jane 100 
+# 2020-03-20 deposit 1000     
